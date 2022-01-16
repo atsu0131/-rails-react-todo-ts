@@ -1,51 +1,44 @@
 import React, { useState, useEffect } from "react"
-import { Link, Navigate, useRoutes, BrowserRouter as Router,} from 'react-router-dom';
-import { TodoList } from "./components/TodoList"
-import { TodoForm } from "./components/TodoForm"
+import { Link, Navigate, useRoutes, BrowserRouter as Router,Routes,Route} from 'react-router-dom';
+import { TodoList } from "./components/pages/TodoList"
+import { TodoForm } from "./components/pages/TodoForm"
+import { Button, ChakraProvider } from '@chakra-ui/react'
+import theme from "./theme/theme"
 
+import {Home} from "./components/pages/Home"
 import { getTodos } from "./lib/api/todos"
 import { Todo } from "./interfaces/index"
-import { TodoContent } from "./pages/todo"
+import { TodoContent } from "./components/pages/todo"
 
 
 
 const App: React.FC = (): JSX.Element => {
-  const mainRoutes = {
-    path: '/',
-    element: <Home />,
-    children: [
-      // {path: '*', element: <Navigate to='/404' />},
-      // {path: '/', element: <MainView />},
-      // {path: '404', element: <PageNotFoundView />},
-      // {path: 'account', element: <Navigate to='/account/list' />},
-    ],
-  };
+  // const mainRoutes = {
+  //   path: '/',
+  //   element: <Home />,
+  // };
 
-  const aboutRoutes = {
-    path: 'about',
-    element: <About />,
-    // children: [
-    //   {path: '*', element: <Navigate to='/404' />},
-    //   {path: ':id', element: <AccountDetailView />},
-    //   {path: 'add', element: <AccountAddView />},
-    //   {path: 'list', element: <AccountListView />},
-    // ],
-  };
+  // const aboutRoutes = {
+  //   path: 'about',
+  //   element: <About />,
+  // };
 
-  const todoRoutes = {
-    path: 'todo',
-    element: <Contact />,
-    // children: [
-    //   {path: '*', element: <Navigate to='/404' />},
-    //   {path: ':id', element: <AccountDetailView />},
-    //   {path: 'add', element: <AccountAddView />},
-    //   {path: 'list', element: <AccountListView />},
-    // ],
-  };
+  // const todoRoutes = {
+  //   path: 'todo',
+  //   element: <Contact />,
+  // };
 
-  const routing = useRoutes([mainRoutes, aboutRoutes, todoRoutes]);
+  // const routing = useRoutes([mainRoutes, aboutRoutes, todoRoutes]);
 
-  return <>{routing}</>;
+  // return <>{routing}</>;
+
+  return (
+      <Routes>
+        <Route path="/about" element={<About />} />
+        <Route path="/todo" element={<TodoContent />} />
+        <Route path="/" element={<Home />} />
+      </Routes>
+  )
 };
 
 const AppWrapper: React.FC  = () => {
@@ -56,45 +49,17 @@ const AppWrapper: React.FC  = () => {
   );
 };
 
-const Home: React.FC = () => {
-  const [todos, setTodos] = useState<Todo[]>([])
-
-  const handleGetTodos = async () => {
-    try {
-      const res = await getTodos()
-      console.log(res)
-
-      if (res?.status === 200) {
-        setTodos(res.data.todos)
-      } else {
-        console.log(res.data.message)
-      }
-    } catch (err) {
-      console.log(err)
-    }
-  }
-
-  useEffect(() => {
-    handleGetTodos()
-  }, [])
-
-  return (
-    <>
-      <h1>Todo App</h1>
-      <Link to="/about">About</Link>
-      <Link to="/todo">todo</Link>
-      <TodoForm todos={todos} setTodos={setTodos} />
-      <TodoList todos={todos} setTodos={setTodos} />
-    </>
-  )
-}
 
 const Contact: React.FC = () => {
   return <TodoContent />;
 }
 
 const About: React.FC = () => {
-  return <h2>About</h2>;
+  return (
+    <ChakraProvider theme={theme}>
+      <Button>ooo</Button>
+    </ChakraProvider>
+  )
 }
 
 export default AppWrapper

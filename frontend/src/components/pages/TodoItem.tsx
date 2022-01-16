@@ -1,6 +1,6 @@
 import React from "react"
-import { deleteTodo } from "../lib/api/todos"
-import { Todo } from "../interfaces/index"
+import { deleteTodo } from "../../lib/api/todos"
+import { Todo } from "../../interfaces/index"
 
 interface TodoItemProps {
   todo: Todo
